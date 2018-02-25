@@ -1,0 +1,49 @@
+#include <Stepper.h>
+
+#define STEPS 400
+
+int i = 3;
+int rev = (i * STEPS);
+
+Stepper stepper(STEPS, 4, 5, 6, 7);
+///Stepper stepper1(STEPS, 8,9,10,11);
+
+
+void setup()
+{
+  Serial.begin(9600);
+  Serial.println("Stepper test!");
+  stepper.setSpeed(70);
+///stepper1.setSpeed(60);
+}
+
+void loop()
+{
+  Forward();
+  delay(1000);
+  Reverse();
+  delay(1000);
+  Right();
+  delay(1000);
+  Left();
+  delay(1000);
+}
+
+
+void Forward(){
+  stepper.step(rev);
+///  stepper1.step(STEPS);
+}
+
+void Reverse(){
+  stepper.step(-rev);
+///  stepper1.step(-STEPS);
+}
+void Right(){
+ stepper.step(-rev);
+/// stepper1.step(STEPS); 
+}
+void Left(){
+ stepper.step(rev);
+/// stepper1.step(-STEPS);
+}
