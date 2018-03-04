@@ -22,7 +22,7 @@
      delay(1000);
      Reverse();
      delay(1000);
-     Right();
+     Right(30, 500);
      delay(1000);
  }
 
@@ -46,14 +46,13 @@
   }
 }
 
-  void Right(){
-    stepper1.setSpeed(30);
-    stepper2.setSpeed(30);
-    for(int a = 0; a > STEPS * i; a++){
-    stepper1.step(1);
-    }
-     for(int b = 0 ; b < -STEPS * i; b--){
-      stepper2.step(-1);
-    }
+  void Right(speed, distance){
+    // Why use a loop when you can just specify the distance you would like to travel
+    // Also using a nested loop will not work as you intendd because it is still doing one thing
+    // at a time then.
+    stepper1.setSpeed(speed);
+    stepper2.setSpeed(speed);
+    stepper1.step(distance);
+    stepper2.step(-distance);
   }
 
