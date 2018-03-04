@@ -1,49 +1,59 @@
-#include <Stepper.h>
+    #include <Stepper.h>
+     
+    #define STEPS 400
+    
+    Stepper stepper1(STEPS, 4, 5, 6, 7);
+    Stepper stepper2(STEPS, 9,10,11,12);
+     
+    int i = 3;
+    
+    void setup()
+    {
+      Serial.begin(115200);
+      Serial.println("Stepper test!");
+      // set the speed of the motor to 30 RPMs
+      stepper1.setSpeed(100);
+      stepper2.setSpeed(80);
+    }
+     
+    void loop()
+    {
+     Forward();
+     delay(1000);
+     Reverse();
+     delay(1000);
+     Right();
+     delay(1000);
+ }
 
-#define STEPS 400
+ void Forward(){
+  stepper1.setSpeed(90);
+  stepper2.setSpeed(90);
+  for(int S = 0;  S<STEPS * i; S++){
+      Serial.println("Forward");
+      stepper1.step(1);
+      stepper2.step(1);
+      }
+ }
 
-int i = 3;
-int rev = (i * STEPS);
-
-Stepper stepper(STEPS, 4, 5, 6, 7);
-///Stepper stepper1(STEPS, 8,9,10,11);
-
-
-void setup()
-{
-  Serial.begin(9600);
-  Serial.println("Stepper test!");
-  stepper.setSpeed(70);
-///stepper1.setSpeed(60);
+  void Reverse(){
+    stepper1.setSpeed(60);
+    stepper2.setSpeed(60);
+     for(int K = 0; K > -STEPS * i; K--){
+      Serial.println("Backward");
+      stepper1.step(-1);
+      stepper2.step(-1);
+  }
 }
 
-void loop()
-{
-  Forward();
-  delay(1000);
-  Reverse();
-  delay(1000);
-  Right();
-  delay(1000);
-  Left();
-  delay(1000);
-}
+  void Right(){
+    stepper1.setSpeed(30);
+    stepper2.setSpeed(30);
+    for(int a = 0; a > STEPS * i; a++){
+    stepper1.step(1);
+    }
+     for(int b = 0 ; b < -STEPS * i; b--){
+      stepper2.step(-1);
+    }
+  }
 
-
-void Forward(){
-  stepper.step(rev);
-///  stepper1.step(STEPS);
-}
-
-void Reverse(){
-  stepper.step(-rev);
-///  stepper1.step(-STEPS);
-}
-void Right(){
- stepper.step(-rev);
-/// stepper1.step(STEPS); 
-}
-void Left(){
- stepper.step(rev);
-/// stepper1.step(-STEPS);
-}
