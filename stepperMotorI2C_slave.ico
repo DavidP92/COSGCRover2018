@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include <Arduino.h>
 
-#define SLAVEID 0x1
+#define SLAVEID 0x2
 #define FWD 1
 #define REV 0
 
@@ -11,15 +11,16 @@
 #define STEPPERCOILB1 6
 #define STEPPERCOILB2 7
 
+#define revolutions 7
+#define motorRPM 100
+#define testRPM 45
+
 char inByte;
 
 const int STEPS = 400;
 const int microSteps = 2;
 
 
-int revolutions = 7;
-int motorRPM = 110;
-int testRPM = 45;
 int distance = microSteps * STEPS * revolutions;
 int withoutSteps = STEPS * revolutions;
 int turningDistance = STEPS / 3 ;
@@ -39,15 +40,20 @@ void goBackwards(Stepper *stepper, const int speed, const int step) {
   stepper->step(step);
 }
 
+void forwardTurn((Stepper *stepper, const int speed, const int step) {
+  stepper->setSpeed(speed);
+  stepper->step(step);
+}
+
 void receiveEvent(int bytes){
   inByte = Wire.read(); // receive byte as a character
 }
 
 void doStuff() {
   if (inByte == (char)FWD)
-    goForward(&stepper1, STEPS, 1);
+    goForward(&stepper1, motorRPM, STEPS);
   else
-    goBackwards(&stepper1, STEPS, 1);
+    goBackwards(&stepper1, motorRPM, STEPS);
 }
 
 void setup(){
